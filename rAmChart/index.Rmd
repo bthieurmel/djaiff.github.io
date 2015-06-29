@@ -303,7 +303,7 @@ See <http://www.amcharts.com/demos/candlestick-chart/>
 
 ```{r, message=FALSE}
 library(rAmChart)
-amSerialChart(categoryField = "date", theme = "dark", dataDateFormat = "YYYY-MM-DD"
+amSerialChart(categoryField = "date", theme = "light", dataDateFormat = "YYYY-MM-DD"
 ) %>>% setDataProvider(data.frame (date = paste0(2011, "-", 8:11, "-", replicate(4, 1:30)),
                                      open = round(runif(length(paste0(2011, "-", 8:11, "-", replicate(4, 1:30))), 130, 140), 2), 
                                      high = round(runif(length(paste0(2011, "-", 8:11, "-", replicate(4, 1:30))), 140, 150), 2),
@@ -317,32 +317,6 @@ amSerialChart(categoryField = "date", theme = "dark", dataDateFormat = "YYYY-MM-
                  fillAlphas = "0.9",  negativeFillColors = "#db4c3c", negativeLineColor = "#db4c3c",
                  openField = "open", title = "Price:", type = "candlestick", valueField = "close"
 ) %>>% setChartCursor(valueLineEnabled = TRUE, valueLineBalloonEnabled = TRUE
-) %>>% setChartScrollbar(parseDates = TRUE
-) %>>% addListener("rendered", "function(event) { event.chart.zoomToIndexes(event.chart.dataProvider.length - 10, event.chart.dataProvider.length - 1) }"
-) %>>% setExport(position = "bottom-right") %>>% plot
-```
-
-### Candle stick chart
-
-See <http://www.amcharts.com/demos/candlestick-chart/>
-
-```{r, message=FALSE}
-library(rAmChart)
-amSerialChart(categoryField = "date", theme = "dark", dataDateFormat = "YYYY-MM-DD"
-) %>>% setDataProvider(data.frame (date = paste0(2011, "-", 8:11, "-", replicate(4, 1:30)),
-                                     open = round(runif(length(paste0(2011, "-", 8:11, "-", replicate(4, 1:30))), 130, 140), 2), 
-                                     high = round(runif(length(paste0(2011, "-", 8:11, "-", replicate(4, 1:30))), 140, 150), 2),
-                                     low = round(runif(length(paste0(2011, "-", 8:11, "-", replicate(4, 1:30))), 120, 130), 2),
-                                     close = round(runif(length(paste0(2011, "-", 8:11, "-", replicate(4, 1:30))), 120, 150), 2))
-) %>>% addValueAxes(position = "left"
-) %>>% addGraph(id = "g1",
-                 balloonText = "Open : <b>[[open]]</b><br>Low =<b>[[low]]</b><br>High =<b>[[high]]</b><br>Close =<b>[[close]]</b><br>",
-                 closeField = "close", fillColors = "#7f8da9", highField = "high",
-                 lineColor = "#7f8da9", lineAlpha = 1, lowField = "low",
-                 fillAlphas = "0.9",  negativeFillColors = "#db4c3c", negativeLineColor = "#db4c3c",
-                 openField = "open", title = "Price:", type = "candlestick", valueField = "close"
-) %>>% setChartCursor(valueLineEnabled = TRUE, valueLineBalloonEnabled = TRUE
-) %>>% setChartScrollbar(parseDates = TRUE
 ) %>>% addListener("rendered", "function(event) { event.chart.zoomToIndexes(event.chart.dataProvider.length - 10, event.chart.dataProvider.length - 1) }"
 ) %>>% setExport(position = "bottom-right") %>>% plot
 ```
@@ -448,7 +422,7 @@ setkey(dtTemp , date)
 dp <- dtTemp[dtCharge]
 dp[ , date := format(date, "%m-%d-%Y %H:%M:%S")]
 
-nTest <- 1000
+nTest <- 10000
 sample <- 1:nTest
 amStockChart(theme = "default" , dataDateFormat = "MM-DD-YYYY JJ:NN:SS"
 ) %>>% addDataSet(dataSet(title = "Courbe de charge", categoryField = "date") %>>%
