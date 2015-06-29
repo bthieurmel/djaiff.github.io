@@ -270,7 +270,7 @@ See <http://www.amcharts.com/demos/waterfall-chart/>
 
 ```{r, message=FALSE}
 library(rAmChart)
-amSerialChart(theme = "light", startDuration = 1, columnWidth = 0.6, categoryField = "name"
+amSerialChart(theme = "light", startDuration = 1, columnWidth = 0.6, categoryField = "name", pathToImages = "http://www.amcharts.com/lib/3/images/"
 ) %>>% setDataProvider( data.frame(
   name = c("Income A", "Income B", "Total Income", "Expenses A", "Expenses B", "Revenue"), 
   open  =  c(0, 11.13, 0, 12.92, 8.64, 0), 
@@ -317,8 +317,9 @@ amSerialChart(categoryField = "date", theme = "light", dataDateFormat = "YYYY-MM
                  fillAlphas = "0.9",  negativeFillColors = "#db4c3c", negativeLineColor = "#db4c3c",
                  openField = "open", title = "Price:", type = "candlestick", valueField = "close"
 ) %>>% setChartCursor(valueLineEnabled = TRUE, valueLineBalloonEnabled = TRUE
+) %>>% setChartScrollbar(graph = "g1"
 ) %>>% addListener("rendered", "function(event) { event.chart.zoomToIndexes(event.chart.dataProvider.length - 10, event.chart.dataProvider.length - 1) }"
-) %>>% setExport(position = "bottom-right") %>>% plot
+) %>>% setExport(position = "top-left") %>>% plot
 ```
 
 ### Stock chart with multiple data sets
@@ -445,7 +446,8 @@ amStockChart(theme = "default" , dataDateFormat = "MM-DD-YYYY JJ:NN:SS"
                                cursorAlpha = 0.1, valueLineBalloonEnabled = TRUE,
                                valueLineEnabled = TRUE, valueLineAlpha = 0.5
 ) %>>% setPeriodSelector(periodSelector(position = "left") %>>%
-                            addPeriod(period = "MM", selected = TRUE, count = 1, label = "1 month") %>>%
+                            addPeriod(period = "MM", selected = TRUE,
+                                      count = 1, label = "1 month") %>>%
                             addPeriod(period = "MAX", label = "MAX")
 ) %>>% setDataSetSelector(position = "left"
 ) %>>% setCategoryAxesSettings(minPeriod = "ss"
