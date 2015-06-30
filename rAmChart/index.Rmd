@@ -107,7 +107,21 @@ class(
 ```
 
 * Each element from the function call is a first level property.
-* Other complex first level properties, like`dataProvider`, have their own dedicated function. For these, the first argument is always an S4 class object **AmChart** (or **AmStock**).
+* Other complex first level properties have their own dedicated functions for which the first argument is always the inherited S4 class object.
+
+To illustrate, `setDataProvider` is a valid method for setting chart data of classes AmChart and DatSet:
+
+```{r}
+showMethods("setDataProvider")
+```
+
+Therefore, it can be used in those contexts:
+
+```{r, eval = FALSE}
+amChart([first level properties]) %>>% setDataProvider(dataProvider = ...)
+
+dataSet([first level properties]) %>>% setDataProvider(dataProvider = ...)
+```
 
 ### Customization...
 
@@ -253,6 +267,7 @@ amSerialChart(theme = "light", marginRight = 30, plotAreaBorderAlpha = 0,
 ) %>>% addGraph(balloonText = "<img src = 'http://www.amcharts.com/lib/3/images/bicycle.png' style = 'vertical-align:bottom; margin-right: 10px; width:28px; height:21px;'><span style = 'font-size:14px; color:#000000;'><b>[[value]]</b></span>", 
                  fillAlphas = 0.6, lineAlpha = 0.4, title = "Bicycles", valueField = "bicycles"
 ) %>>% setChartCursor(cursorAlpha = 0
+) %>>% setChartScrollbar(
 ) %>>% setCategoryAxis(startOnAxis = TRUE, axisColor = "#DADADA", gridAlpha = 0.07
 ) %>>% setGuides(list(guide(category = "2001", toCategory = "2003", lineColor = "#CC0000",
                             lineAlpha = 1, fillAlpha = 0.2, fillColor = "#CC0000", dashLength = 2,
