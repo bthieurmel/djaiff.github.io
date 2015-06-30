@@ -7,24 +7,25 @@ output:
     highlight: tango
 ---
 
-The package rAmChart allows to draw JavaScript charts wich are by nature interactive.
+The package rAmChart allows you to draw JavaScript charts wich are by nature interactive.
 Its architecture is based on S4 classes and corresponds almost exactly to the
 original library [AmCharts][url_amcharts].
 
-We do not focus on the **htmlwidgets** features which make a such API realizable. For more details consult directly <http://www.htmlwidgets.org>.
+For readability matters, we do not detail much **htmlwidgets** features on the present website. For more details consult directly <http://www.htmlwidgets.org>.
 
 # Getting started
 
 ## pipeR
 
-By loading the package, you will note that it is plainly compatible with other
-plot methods since it uses S4 signature for each functionnality.
+When loading the packge, you note that it is fully compatible with other plot methods since it uses S4 signature for each functionnality.
 ```{r,echo=FALSE}
 library(rAmChart)
 ```
 
-For the next part of this short introduction, you will always see the symbole
-`%>>%` from the package [*pipeR*][home_pipeR]. If you want more details, you can refer to the its tutorial, but in this context we just have to keep in mind that thanks to this the code before is evaluated and passed as the first argument of the function which follow `%>>%` or it can can be any argument by indicating a `.` using `()` or `{}`.
+In the rest of this short introduction, you will always see the symbol
+`%>>%` introduced by the package [*pipeR*][home_pipeR].  For more details, please refer to the official tutorial.
+
+For the present quick introduction on rAmCharts, we just have to keep in mind that using this syntax, the left hand code is evaluated and passed as the first argument of the function which follow `%>>%` (or alternatively it can can be any argument by indicating a `.` using `()` or `{}` ).
 
 For example:
 ```{r}
@@ -50,7 +51,8 @@ iris %>>% ( summary(object = ., digits = 2) )
 
 ### Example
 
-Begin with a simple pie chart
+Start with a simple pie chart
+
 ```{r, message=FALSE}
 library(rAmChart)
 amPieChart(theme ="light", titleField = "key", valueField = "value"
@@ -61,7 +63,8 @@ amPieChart(theme ="light", titleField = "key", valueField = "value"
 
 ### Details...
 
-If you would have seen the same example from a demonstration on <http://www.amcharts.com/demos/>, you'd read a javascript source code like this:
+If you look at the corresponding pie chart example from the original JavaScript library on <http://www.amcharts.com/demos/>, you notice that the javascript source code looks like:
+
 ```
 {
 "type": "pie",
@@ -78,8 +81,8 @@ If you would have seen the same example from a demonstration on <http://www.amch
 }
 ```
 
-Although the syntax appears very different, it has similarities.
-If you observe the result before calling the `plot` method, you see a global list containing each parameter precised in the code:
+Although the syntax appears very different, it has similarities. If you observe the result before calling the `plot` method, you see a global list containing each parameter mentionned in the code:
+
 ```{r, message=FALSE}
 library(rAmChart)
 amPieChart(theme ="light", titleField = "key", valueField = "value"
@@ -87,38 +90,35 @@ amPieChart(theme ="light", titleField = "key", valueField = "value"
 )
 ```
 
-This list can be easily mapped to the previous JavaScript code with the
-following tips:
+This list can be easily mapped to the previous JavaScript code with the following tips:
 
-* A JavaScript object corresponds to a list in __R__
-* A JavaScript array (a wrapper for object) also corresponds to a list in __R__
+* A JavaScript object corresponds to a __R__ list
+* A JavaScript array (a wrapper for an object) also corresponds to a __R__ list
 
-This structure and equivalencies are fundamental to construct charts with the package.
+This structure and mapping are fundamental to the how we construct charts with the package.
 
-The key thing is to imagine the function 
-```{r, eval=FALSE}
+The key is to imagine the function call as a list containing every properties for an S4 class initializer:
+
+```{r, message=FALSE}
 library(rAmChart)
-amPieChart(theme ="light", titleField = "key", valueField = "value")
-```
-as an initializer of an S4 class  which is a list copntainer for every property.
-```{r}
-library(rAmChart)
-class(amPieChart())
+class(
+  amPieChart(theme ="light", titleField = "key", valueField = "value")
+)
 ```
 
-* Each element put in the function is a first level property.
-* Other complex first level property, like `dataProvider`, has its dedicated function whose the first argument is always an object of S4 class **AmChart** (or **AmStock**).
+* Each element from the function call is a first level property.
+* Other complex first level properties, like`dataProvider`, have their own dedicated function. For these, the first argument is always an S4 class object **AmChart** (or **AmStock**).
 
 ### Customization...
 
-Currently you can draw any chart from:
-* <http://docs.amcharts.com/3/javascriptcharts>
-* <http://docs.amcharts.com/3/javascriptstockchart>
+Currently you can draw any object derived from: 
 
-That means you can customize you chart in various ways !
+* AmCharts API: <http://docs.amcharts.com/3/javascriptcharts>
+* AmStockCharts API: <http://docs.amcharts.com/3/javascriptstockchart>
 
-For instance, we can move the default linked label *JS chart by amCharts*, which must be kept for using the library without license.
-We also can switch the theme:
+This means you can customize you chart in various ways !
+
+For instance, we can move the default linked label *JS chart by amCharts* (which must be kept if using the library without license). We also can switch the theme:
 
 ```{r, message=FALSE}
 library(rAmChart)
@@ -456,5 +456,5 @@ amStockChart(theme = "default" , dataDateFormat = "MM-DD-YYYY JJ:NN:SS"
 
 ```
 
-[url_amcharts]: www.amcharts.com
-[home_pipeR]:http://renkun.me/pipeR-tutorial/
+[url_amcharts]: http://www.amcharts.com
+[home_pipeR]: http://renkun.me/pipeR-tutorial/
