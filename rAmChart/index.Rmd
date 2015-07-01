@@ -19,7 +19,7 @@ For readability matters, we do not detail much **htmlwidgets** features on the p
 
 When loading the packge, you note that it is fully compatible with other plot methods since it uses S4 signature for each functionnality.
 ```{r,echo=FALSE}
-library(rAmChart)
+library(rAmCharts)
 ```
 
 In the rest of this short introduction, you will always see the symbol
@@ -54,7 +54,7 @@ iris %>>% ( summary(object = ., digits = 2) )
 Start with a simple pie chart
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
 amPieChart(theme ="light", titleField = "key", valueField = "value"
 ) %>>% setDataProvider(data.frame(key = c("FR", "US"), value = c(20,10))
 ) %>>% setLegend( position = "right"
@@ -84,7 +84,7 @@ If you look at the corresponding pie chart example from the original JavaScript 
 Although the syntax appears very different, it has similarities. If you observe the result before calling the `plot` method, you see a global list containing each parameter mentionned in the code:
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
 amPieChart(theme ="light", titleField = "key", valueField = "value"
 ) %>>% setDataProvider(data.frame(key = c("FR", "US"), value = c(20,10))
 )
@@ -100,7 +100,7 @@ This structure and mapping are fundamental to the how we construct charts with t
 The key is to imagine the function call as a list containing every properties for an S4 class initializer:
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
 class(
   amPieChart(theme ="light", titleField = "key", valueField = "value")
 )
@@ -135,7 +135,7 @@ This means you can customize you chart in various ways !
 For instance, we can move the default linked label *JS chart by amCharts* (which must be kept if using the library without license). We also can switch the theme:
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
 amPieChart(theme ="chalk", titleField = "key", valueField = "value",
            creditsPosition = "bottom-left"
 ) %>>% setDataProvider(data.frame(key = c("FR", "US"), value = c(20,10))
@@ -150,7 +150,7 @@ amPieChart(theme ="chalk", titleField = "key", valueField = "value",
 ### amXYChart
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
 amXYChart(theme = "default", startDuration = 0.5, marginLeft = 46, marginBottom = 35
 ) %>>% setDataProvider(data.frame( y = c(10,5,-10,-6,15,13,1),  x = c(14,3,8,5,-4,1,6),
                                    value = c(59,50,19,65,92,8,16), y2 = c(-5,-15,-4,-5,-10,-2,0),
@@ -170,7 +170,7 @@ amXYChart(theme = "default", startDuration = 0.5, marginLeft = 46, marginBottom 
 ### gaugeChart
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
 amAngularGaugeChart(theme = "light"
 ) %>>% addArrow(value = 100
 ) %>>% addAxe(gaugeAxis (bottomText = "100 km/h", endValue = 220, valueInterval = 10
@@ -183,7 +183,8 @@ amAngularGaugeChart(theme = "light"
 ### funnelChart
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
+library(pipeR)
 amFunnelChart(theme = "light", neckHeight = "30%", neckWidth = "40%", titleField = "title",
               valueField = "value", creditsPosition = "bottom-left", 
               dataProvider = data.frame(title = c("Website visits", "Downloads"),
@@ -198,7 +199,8 @@ amFunnelChart(theme = "light", neckHeight = "30%", neckWidth = "40%", titleField
 See <http://www.amcharts.com/demos/column-and-line-mix/>
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
+library(pipeR)
 amSerialChart(addClassNames = TRUE, theme = "light", autoMargins = FALSE, marginLeft = 30,
               marginRight = 8, marginTop = 10, marginBottom = 26, startDuration = 1,
               categoryField = "year"
@@ -229,7 +231,9 @@ amSerialChart(addClassNames = TRUE, theme = "light", autoMargins = FALSE, margin
 See <http://www.amcharts.com/demos/exporting-chart-to-image/>
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
+library(pipeR)
+
 amSerialChart(theme = "dark", startDuration = 2, categoryField = "country", depth3D = 40,
                angle = 30
 ) %>>% setDataProvider(data.frame(
@@ -248,7 +252,9 @@ amSerialChart(theme = "dark", startDuration = 2, categoryField = "country", dept
 See <http://www.amcharts.com/demos/stacked-area/>
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
+library(pipeR)
+
 amSerialChart(theme = "light", marginRight = 30, plotAreaBorderAlpha = 0,
                categoryField = "year"
 ) %>>% setDataProvider(data.frame(
@@ -284,7 +290,9 @@ amSerialChart(theme = "light", marginRight = 30, plotAreaBorderAlpha = 0,
 See <http://www.amcharts.com/demos/waterfall-chart/>
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
+library(pipeR)
+
 amSerialChart(theme = "light", startDuration = 1, columnWidth = 0.6, categoryField = "name", pathToImages = "http://www.amcharts.com/lib/3/images/"
 ) %>>% setDataProvider( data.frame(
   name = c("Income A", "Income B", "Total Income", "Expenses A", "Expenses B", "Revenue"), 
@@ -312,37 +320,138 @@ amSerialChart(theme = "light", startDuration = 1, columnWidth = 0.6, categoryFie
 ) %>>% setExport %>>% plot
 ```
 
+---
+
 ### Candle stick chart
 
 See <http://www.amcharts.com/demos/candlestick-chart/>
 
 ```{r, message=FALSE}
-library(rAmChart)
-amSerialChart(categoryField = "date", theme = "light", dataDateFormat = "YYYY-MM-DD"
-) %>>% setDataProvider(data.frame (date = paste0(2011, "-", 8:11, "-", replicate(4, 1:30)),
-                                     open = round(runif(length(paste0(2011, "-", 8:11, "-", replicate(4, 1:30))), 130, 140), 2), 
-                                     high = round(runif(length(paste0(2011, "-", 8:11, "-", replicate(4, 1:30))), 140, 150), 2),
-                                     low = round(runif(length(paste0(2011, "-", 8:11, "-", replicate(4, 1:30))), 120, 130), 2),
-                                     close = round(runif(length(paste0(2011, "-", 8:11, "-", replicate(4, 1:30))), 120, 150), 2))
+library(rAmCharts)
+library(pipeR)
+library(data.table)
+
+# ---------------------------
+# Create the dataProvider ---
+# ---------------------------
+start <- as.POSIXct("01-01-2015", format = "%d-%m-%Y")
+end <- as.POSIXct("31-12-2015", format = "%d-%m-%Y")
+date <- seq.POSIXt(from = start, to = end, by = "day")
+date <- format(date, "%m-%d-%Y")
+low <- c() ; open <- c() ; close <- c() ; high <- c() ; median <- c()
+
+n <- 100
+invisible(
+  sapply(1:length(date), function(i)
+  {
+    sample <- rnorm(n, mean = sample(1:10, 1), sd = sample(1:10/10, 1))
+    quant <- boxplot(sample, plot = FALSE)$stats
+    low <<- c(low, quant[1])
+    open <<- c(open, quant[2])
+    median <<- c(median, quant[3])
+    close <<- c(close, quant[4])
+    high <<- c(high, quant[5])
+  })
+)
+dp <- data.table(date = date, low = round(low, 2), open = round(open, 2), 
+                 close = round(close, 2), high = round(high, 2), median = round(median, 2)) 
+
+# --------------
+# Draw chart ---
+# --------------
+amSerialChart(categoryField = "date", theme = "light",
+              dataDateFormat = "MM-DD-YYYY", dataProvider = dp
+) %>>% setCategoryAxis(parseDates = TRUE
 ) %>>% addValueAxes(position = "left"
-) %>>% addGraph(id = "g1",
-                 balloonText = "Open : <b>[[open]]</b><br>Low =<b>[[low]]</b><br>High =<b>[[high]]</b><br>Close =<b>[[close]]</b><br>",
-                 closeField = "close", fillColors = "#7f8da9", highField = "high",
-                 lineColor = "#7f8da9", lineAlpha = 1, lowField = "low",
-                 fillAlphas = "0.9",  negativeFillColors = "#db4c3c", negativeLineColor = "#db4c3c",
-                 openField = "open", title = "Price:", type = "candlestick", valueField = "close"
+) %>>% addGraph(id = "g1", type = "candlestick", lineColor = "#7f8da9",
+                lowField = "low", closeField = "close",
+                highField = "high", openField = "open", valueField = "median",
+                balloonText = "Open : <b>[[open]]</b><br>Low =<b>[[low]]</b><br>High =<b>[[high]]</b><br>Close =<b>[[close]]</b><br>",
+                lineColor = "#7f8da9", lineAlpha = 1, fillAlphas = 0.9, negativeBase = 5,
+                negativeFillColors = "#db4c3c", negativeLineColor = "#db4c3c",
+                title = "Price: "
 ) %>>% setChartCursor(valueLineEnabled = TRUE, valueLineBalloonEnabled = TRUE
-) %>>% setChartScrollbar(graph = "g1"
+) %>>% setChartScrollbar(graph = "g1", graphType = "line"
 ) %>>% addListener("rendered", "function(event) { event.chart.zoomToIndexes(event.chart.dataProvider.length - 10, event.chart.dataProvider.length - 1) }"
-) %>>% setExport(position = "top-left") %>>% plot
+) %>>% setExport(position = "bottom-right") %>>% plot
 ```
+
+---
+
+### AmSerialChart: example of boxPlot
+
+```{r, message=FALSE}
+library(rAmCharts)
+library(pipeR)
+library(data.table)
+
+# ---------------------------
+# Create the dataProvider ---
+# ---------------------------
+start <- as.POSIXct("01-01-2015", format = "%d-%m-%Y")
+end <- as.POSIXct("31-12-2015", format = "%d-%m-%Y")
+date <- seq.POSIXt(from = start, to = end, by = "day")
+date <- format(date, "%m-%d-%Y")
+n <- 100
+low_outlier <- c() ; low <- c() ; open <- c()
+close <- c() ; high <- c() ; high_outlier <- c() 
+median <- c()
+invisible(
+  sapply(1:length(date), function(i)
+  {
+    sample <- rnorm(n, mean = sample(1:10, 1), sd = sample(1:10/10, 1))
+    quant <- boxplot(sample, plot = FALSE)$stats
+    low_outlier <<- c(low_outlier, quant[1])
+    low <<- c(low, quant[1])
+    open <<- c(open, quant[2])
+    median <<- c(median, quant[3])
+    close <<- c(close, quant[4])
+    high <<- c(high, quant[5])
+    high_outlier <<- c(high_outlier, quant[5])
+  })
+)
+dp <- data.table(date = date, low_outlier = round(low_outlier, 2), low = round(low, 2),
+                 open = round(open, 2), median = round(median, 2), close = round(close, 2),
+                 high = round(high, 2), high_outlier = round(high_outlier, 2) )
+
+# --------------
+# Draw chart ---
+# --------------
+amSerialChart(categoryField = "date", theme = "light",
+              dataDateFormat = "MM-DD-YYYY", dataProvider = dp
+) %>>% setCategoryAxis(parseDates = TRUE
+) %>>% addValueAxes(position = "left"
+) %>>% addGraph(id = "g1", type = "candlestick",
+                balloonText = "Low = <b>[[low_outlier]]</b><br/>1st quart. = <b>[[open]]</b><br/>Median = <b>[[median]]</b><br/>3rd quart. = <b>[[close]]</b><br/>High = <b>[[high_outlier]]</b><br/>",
+                closeField = "close", fillColors = "#7f8da9", highField = "high",
+                lineColor = "#7f8da9", lineAlpha = 1, lowField = "low",
+                fillAlphas = "0.9",  negativeFillColors = "#db4c3c", negativeLineColor = "#db4c3c",
+                openField = "open", title = "Price:", valueField = "close"
+) %>>% addGraph(id = "g2", type = "step", valueField = "median",
+                noStepRisers = TRUE, balloonText = ""
+) %>>% addGraph(id = "g3", type = "step", valueField = "low_outlier",
+                noStepRisers = TRUE, balloonText = ""
+) %>>% addGraph(id = "g4", type = "step", valueField = "high_outlier",
+                noStepRisers = TRUE, balloonText = ""
+) %>>% setChartCursor(valueLineEnabled = TRUE, valueLineBalloonEnabled = TRUE
+) %>>% setChartScrollbar(parseDates = TRUE
+) %>>% addListener("rendered", "function(event) { event.chart.zoomToIndexes(event.chart.dataProvider.length - 10, event.chart.dataProvider.length - 1) }"
+) %>>% setExport(position = "bottom-right") %>>% plot()
+```
+
+---
 
 ### Stock chart with multiple data sets
 
 See <http://www.amcharts.com/demos/multiple-data-sets/>
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
+library(pipeR)
+
+# ---------------------------
+# Create the dataProvider ---
+# ---------------------------
 firstDate <- Sys.Date()
 chartData1 <- as.data.frame(t(sapply(0:20, FUN = function(i)
 {
@@ -376,6 +485,9 @@ chartData4 <- as.data.frame(t(sapply(0:20, FUN = function(i)
   c(date = date, value = a,  volume = b)
 })))
 
+# --------------
+# Draw chart ---
+# --------------
 amStockChart(theme = "light"
 ) %>>% addDataSet(dataSet(title = "first data set", categoryField = "date",
                             dataProvider = chartData1) %>>%
@@ -420,7 +532,13 @@ amStockChart(theme = "light"
 See <http://www.amcharts.com/demos/multiple-data-sets/>
 
 ```{r, message=FALSE}
-library(rAmChart)
+library(rAmCharts)
+library(pipeR)
+library(data.table)
+
+# ---------------------------
+# Create the dataProvider ---
+# ---------------------------
 start <- as.POSIXct("01-01-2015", format = "%d-%m-%Y")
 end <- as.POSIXct("31-12-2015", format = "%d-%m-%Y")
 period <- seq.POSIXt(from = start, to = end, by = "10 min")
@@ -436,13 +554,14 @@ setkey(dtCharge, date)
 dtTemp <- data.table::data.table(temperature = temp, date = periodTemp)
 setkey(dtTemp , date)
 dp <- dtTemp[dtCharge]
-dp[ , date := format(date, "%m-%d-%Y %H:%M:%S")]
+dp <- dp[, date := format(date, "%m-%d-%Y %H:%M:%S")][1:10000]
 
-nTest <- 10000
-sample <- 1:nTest
+# --------------
+# Draw chart ---
+# --------------
 amStockChart(theme = "default" , dataDateFormat = "MM-DD-YYYY JJ:NN:SS"
 ) %>>% addDataSet(dataSet(title = "Courbe de charge", categoryField = "date") %>>%
-                    setDataProvider(dp[ sample, ], keepNA = FALSE) %>>%
+                    setDataProvider(dp, keepNA = FALSE) %>>%
                     addFieldMapping(fromField = "charge", toField = "charge") %>>%
                     addFieldMapping(fromField = "temperature", toField = "temperature") %>>%
                     addStockEvent( date = "01-02-2015 23:00:00", type = "sign", graph ="g1",
