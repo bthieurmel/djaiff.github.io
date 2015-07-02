@@ -1,5 +1,5 @@
 ---
-title: "rAmChart package"
+title: "rAmCharts package"
 output:
   html_document:
     toc: true
@@ -7,7 +7,7 @@ output:
     highlight: tango
 ---
 
-The package rAmChart allows you to draw JavaScript charts wich are by nature interactive.
+The package rAmCharts allows you to draw JavaScript charts wich are by nature interactive.
 Its architecture is based on S4 classes and corresponds almost exactly to the
 original library [AmCharts][url_amcharts].
 
